@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\ArticleCategory;
+// use App\Models\ArticleCategory;
+use App\Models\Article;
+use App\Models\Category;
 
 class ArticleCategoryTableSeeder extends Seeder
 {
@@ -12,6 +14,17 @@ class ArticleCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(ArticleCategory::class, 100)->create();
+		
+		$faker = \Faker\Factory::create();
+
+        $data = [];
+        for ($i = 0; $i < 10000; $i++) {
+            $data[] = [
+                'article_id' => $faker->numberBetween(1, Article::count()),
+                'category_id' => $faker->numberBetween(1, Category::count()),
+            ];
+        }
+
+        DB::table('table_article_category')->insert($data);
     }
 }

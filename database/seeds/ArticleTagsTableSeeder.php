@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\ArticleTag;
+// use App\Models\ArticleTag;
+use App\Models\Article;
+use App\Models\Tag;
 
 class ArticleTagsTableSeeder extends Seeder
 {
@@ -12,6 +14,17 @@ class ArticleTagsTableSeeder extends Seeder
      */
     public function run()
     {
-       factory(ArticleTag::class, 100)->create();
+		
+		$faker = \Faker\Factory::create();
+
+        $data = [];
+        for ($i = 0; $i < 10000; $i++) {
+            $data[] = [
+                'article_id' => $faker->numberBetween(1, Article::count()),
+                'tag_id' => $faker->numberBetween(1, Tag::count()),
+            ];
+        }
+
+        DB::table('table_article_tag')->insert($data);
     }
 }
